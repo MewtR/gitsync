@@ -2,14 +2,19 @@
 //takes path to directory and remote url
 int main(int argc, char * argv[]) 
 {
-    printf("Here is the number of arguments I received: %i \n", argc);
+    if (argc < 3){
+        printf("Please specify a local directory and a remote url \n");
+        return -1;
+    }
 
     int i = 0;
-    for(char** av = argv; *av; av++){ //argv ends with null pointer
+    // argv ends with null pointer. So we can end the for loop when that
+    // is met
+    for(char** av = argv; *av; av++){  
         if(i == 0){
             printf("The program name is: %s \n", argv[0]);
         }else{
-            printf("Argument number %d is: %s \n", i, *av);
+            printf("Argument %d is: %s \n", i, *av);
         }
         i++;
     }
