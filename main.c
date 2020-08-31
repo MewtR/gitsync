@@ -9,7 +9,7 @@ int main(int argc, char * argv[])
         if(i == 0){
             printf("The program name is: %s \n", argv[0]);
         }else{
-            printf("Argument number %d is: %s \n", i, argv[i]);
+            printf("Argument number %d is: %s \n", i, *av);
         }
         i++;
     }
