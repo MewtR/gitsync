@@ -33,6 +33,9 @@ int main(int argc, char * argv[])
     if (status < 0) return -1;
 
     printf("Remotes found!\n");
+    for(char** r = remotes.strings; *r; r++){
+        printf("Remote: %s\n", *r);
+    }
         
 
     // Assume second arg is remote repo. Check that it is valid

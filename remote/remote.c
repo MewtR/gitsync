@@ -4,6 +4,8 @@
 int get_remotes(const char *path, git_repository **repo, git_strarray *remotes)
 {
     int status = git_repository_open(repo, path);
+    //TODO clean up this trash code
+    // look at the errors section of libgit2 doc: https://libgit2.org/docs/guides/101-samples/
     if(status){
         printf("Error opening the git repo.\n");
         //not sure if following two lines are necessary yet
@@ -21,4 +23,3 @@ int get_remotes(const char *path, git_repository **repo, git_strarray *remotes)
     }
     return 0;
 }
-
