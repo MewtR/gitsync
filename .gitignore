@@ -2,3 +2,4 @@ gitsync
 *.o
 .gdb_history
 compile_commands.json
+.clangd
