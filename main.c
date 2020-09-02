@@ -29,14 +29,17 @@ int main(int argc, char * argv[])
     // if not I can use the information in the next part.
     // What I'm looking for is git_remote_list <- turns out this function just prints "origin" and 
     // such not the actual url like I was hoping
+    // TODO: 
+    // - how to git git_remote objects
+    // - if there are multiple remotes how to determine which one is the default
     git_repository * repo;
     git_strarray remotes = {NULL, 0};
     int status = get_remotes(argv[1], &repo, &remotes);
     if (status < 0) return -1;
 
     printf("Remotes found!\n");
-    for(char** r = remotes.strings; *r; r++){
-        printf("Remote: %s\n", *r);
+    for (int i = 0; i < remotes.count; i++){
+        printf("Remote %d: %s\n", i, remotes.strings[i]);
     }
 
     // Assume second arg is remote repo. Check that it is valid
