@@ -1,25 +1,22 @@
 #include <stdio.h>
 #include "remote.h"
 
+int handle_error(char * message,git_repository *repo, git_strarray *remotes)
+{
+    printf("%s", message);
+    git_repository_free(repo);
+    git_strarray_free(remotes);
+    return -1;
+}
+
 int get_remotes(const char *path, git_repository **repo, git_strarray *remotes)
 {
     int status = git_repository_open(repo, path);
-    //TODO clean up this trash code
-    // look at the errors section of libgit2 doc: https://libgit2.org/docs/guides/101-samples/
-    if(status){
-        printf("Error opening the git repo.\n");
-        //not sure if following two lines are necessary yet
-        git_repository_free(*repo);
-        git_strarray_free(remotes);
-        return -1;
-    }
+    if(status) return handle_error("Error opening the git repo.\n", *repo, remotes);
+
     status = git_remote_list(remotes, *repo);
-    if(status){
-        printf("Error getting remote.\n");
-        //not sure if following two lines are necessary yet
-        git_repository_free(*repo);
-        git_strarray_free(remotes);
-        return -1;
-    }
+    if(status) return handle_error("Error getting remote\n", *repo, remotes);
+    
     return 0;
 }
+

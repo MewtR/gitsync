@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "remote/remote.h"
 #include "git2/global.h"
+#include <string.h>
 //takes path to directory and remote url
 int main(int argc, char * argv[]) 
 {
@@ -32,14 +33,20 @@ int main(int argc, char * argv[])
     int status = get_remotes(argv[1], &repo, &remotes);
     if (status < 0) return -1;
 
-    printf("Remotes found!\n");
-    for(char** r = remotes.strings; *r; r++){
-        printf("Remote: %s\n", *r);
+    if(remotes.count){
+        printf("Remotes found!\n");
+        for(char** r = remotes.strings; *r; r++){
+            printf("Remote: %s\n", *r);
+        }
+    }else{
+        printf("Repository %s does not have any remotes\n", argv[1]);
     }
         
 
     // Assume second arg is remote repo. Check that it is valid
 
+    git_repository_free(repo);
+    git_strarray_free(&remotes);
     git_libgit2_shutdown();
     return 0;
 }
