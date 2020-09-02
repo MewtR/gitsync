@@ -2,6 +2,13 @@
 #include "remote/remote.h"
 #include "git2/global.h"
 #include <string.h>
+
+void clean_up(git_repository * repo, git_strarray * remotes)
+{
+    git_repository_free(repo);
+    git_strarray_free(remotes);
+    git_libgit2_shutdown();
+}
 //takes path to directory and remote url
 int main(int argc, char * argv[]) 
 {
@@ -22,20 +29,20 @@ int main(int argc, char * argv[])
     }
 
     git_libgit2_init();
-    // Assume first arg is local directory (check that it exists)
-    // Actually, just check right away if it is a git repo to avoid TOCTOU bug
-    // possible options: git ls-files (returns error if not a git repo)
-    // I can get the remotes information right away. If it errors it means it's not a git repo.
-    // if not I can use the information in the next part.
-    // What I'm looking for is git_remote_list <- turns out this function just prints "origin" and 
-    // such not the actual url like I was hoping
     // TODO: 
-    // - how to git git_remote objects
-    // - if there are multiple remotes how to determine which one is the default
+    // - how to get git_remote objects <- git_remote_lookup does this
+    // - if there are multiple remotes how to determine which one is the default <- basically need to get the current branch because each branch tracks its own remote.
+    // In order to get current branch I need to:
+    // - git_repository_head() <- gets reference pointed to by head
+    // - git_reference_type() <- either symbolic or direct reference
+    // - git_reference_symbolic_target or git_reference_target depending on type
     git_repository * repo;
     git_strarray remotes = {NULL, 0};
     int status = get_remotes(argv[1], &repo, &remotes);
-    if (status < 0) return -1;
+    if (status < 0) {
+        clean_up(repo, &remotes);
+        return -1;
+    }
 
     printf("Remotes found!\n");
     for (int i = 0; i < remotes.count; i++){
@@ -44,8 +51,6 @@ int main(int argc, char * argv[])
 
     // Assume second arg is remote repo. Check that it is valid
 
-    git_repository_free(repo);
-    git_strarray_free(&remotes);
-    git_libgit2_shutdown();
+    clean_up(repo, &remotes);
     return 0;
 }
