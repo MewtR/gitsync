@@ -5,7 +5,7 @@
 //takes path to directory and remote url
 int main(int argc, char * argv[]) 
 {
-    if (argc < 3){
+    if (argc < 2){
         printf("Please specify a local directory and a remote url \n");
         return -1;
     }
@@ -27,21 +27,17 @@ int main(int argc, char * argv[])
     // possible options: git ls-files (returns error if not a git repo)
     // I can get the remotes information right away. If it errors it means it's not a git repo.
     // if not I can use the information in the next part.
-    // What I'm looking for is git_remote_list
+    // What I'm looking for is git_remote_list <- turns out this function just prints "origin" and 
+    // such not the actual url like I was hoping
     git_repository * repo;
     git_strarray remotes = {NULL, 0};
     int status = get_remotes(argv[1], &repo, &remotes);
     if (status < 0) return -1;
 
-    if(remotes.count){
-        printf("Remotes found!\n");
-        for(char** r = remotes.strings; *r; r++){
-            printf("Remote: %s\n", *r);
-        }
-    }else{
-        printf("Repository %s does not have any remotes\n", argv[1]);
+    printf("Remotes found!\n");
+    for(char** r = remotes.strings; *r; r++){
+        printf("Remote: %s\n", *r);
     }
-        
 
     // Assume second arg is remote repo. Check that it is valid
 

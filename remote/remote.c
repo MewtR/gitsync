@@ -16,6 +16,8 @@ int get_remotes(const char *path, git_repository **repo, git_strarray *remotes)
 
     status = git_remote_list(remotes, *repo);
     if(status) return handle_error("Error getting remote\n", *repo, remotes);
+
+    if(!remotes->count) return handle_error("This repo does not have any remotes\n", *repo, remotes);
     
     return 0;
 }
