@@ -1,6 +1,6 @@
 
 RM = rm -rf
-SRCS = main.c remote/remote.c
+SRCS = main.c remote/remote.c repo/repo.c
 OBJS = $(subst .c,.o,$(SRCS))
 CFLAGS = -g3 # debug with extra information
 
@@ -15,7 +15,8 @@ gitsync: $(OBJS)
 main.o: main.c 
 
 remote/remote.o: remote/remote.c remote/remote.h
-#remote.o: remote.c remote.h
+
+repo/repo.o: repo/repo.c repo/repo.h
 
 .PHONY: clean
 clean: 
