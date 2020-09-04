@@ -10,7 +10,7 @@ int get_current_upstream_branch(git_repository *repo,git_reference* ref)
         git_buf_dispose(&buf);
         return handle_error("Error getting upstream name of branch %s \n", ref_name, status);
     } else {
-        printf("Upstream branch name of %s is %s \n", ref_name, (&buf)->ptr);
+        printf("Upstream branch name of %s is %s \n", ref_name, buf.ptr);
         git_buf_dispose(&buf);
     }
     return 0;
