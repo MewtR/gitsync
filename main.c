@@ -41,7 +41,7 @@ int main(int argc, char * argv[])
     // from branch can get remote. Can I just git_branch_name
     // git_branch_name -> full name of branch? ->git_branch_upstream_remote -> git_remote_lookup  -> git_remote_fetch
     // or 
-    // git_branch_name -> git_branch_upstream_remote -> git_branch_remote_name -> git_remote_lookup  -> git_remote_fetch
+    // git_branch_name -> git_branch_upstream_name -> git_branch_remote_name -> git_remote_lookup  -> git_remote_fetch
     // My end goal is to use git_remote_fetch & git_remote_download
     git_repository * repo;
     git_strarray remotes = {NULL, 0};

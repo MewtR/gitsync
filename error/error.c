@@ -14,15 +14,18 @@ char* get_error_message(const char* format,const char* argument)
   return buffer;
 }
 
-void log_error(char* message)
+void log_error(char* message, int status)
 {
     printf("%s", message);
+    //Error message from libgit2
+    const git_error *e = git_error_last();
+    printf("Error %d/%d: %s\n", status, e->klass, e->message);
     free(message);
 }
 
-int handle_error(const char* format,const char* argument)
+int handle_error(const char* format,const char* argument, int status)
 {
     char* buffer = get_error_message(format, argument);
-    log_error(buffer);
+    log_error(buffer, status);
     return -1;
 }

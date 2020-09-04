@@ -4,6 +4,8 @@
 #include "git2/repository.h"
 #include "git2/refs.h"
 #include "git2/branch.h"
+#include "git2/buffer.h"
+#include "git2/errors.h"
 #include "../error/error.h"
 
 int get_current_branch(git_repository*, git_reference**);
