@@ -1,6 +1,6 @@
 
 RM = rm -rf
-SRCS = main.c remote/remote.c repo/repo.c error/error.c
+SRCS = main.c remote/remote.c branch/branch.c error/error.c
 OBJS = $(subst .c,.o,$(SRCS))
 CFLAGS = -g3 # debug with extra information
 
@@ -16,7 +16,7 @@ main.o: main.c
 
 remote/remote.o: remote/remote.c remote/remote.h
 
-repo/repo.o: repo/repo.c repo/repo.h
+branch/branch.o: branch/branch.c branch/branch.h
 
 error/error.o: error/error.c error/error.h
 
