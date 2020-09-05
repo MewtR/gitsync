@@ -61,9 +61,9 @@ int main(int argc, char * argv[])
     status = get_remote(&remote, repo, remote_name);  
     if (status < 0) goto on_error;
     
+    //git fetch 
     status = fetch(remote);
     if (status < 0) goto on_error;
-    //git fetch 
 
     clean_up(repo, head, remote_name, remote);
     return 0;

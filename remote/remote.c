@@ -30,5 +30,6 @@ int fetch(git_remote* remote)
     git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
     int status = git_remote_fetch(remote, NULL, &opts, NULL);
     if(status) return handle_error("Error fetching from remote", NULL, status);
+    printf("Fetching...\n");
     return 0;
 }
