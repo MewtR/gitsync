@@ -1,3 +1,4 @@
+#include <git2/remote.h>
 #include <stdio.h>
 #include "remote.h"
 
@@ -24,3 +25,10 @@ int get_remote(git_remote ** out, git_repository* repo, const char* name)
     return 0;
 }
 
+int fetch(git_remote* remote)
+{
+    git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
+    int status = git_remote_fetch(remote, NULL, &opts, NULL);
+    if(status) return handle_error("Error fetching from remote", NULL, status);
+    return 0;
+}

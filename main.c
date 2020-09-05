@@ -1,14 +1,16 @@
+#include <git2/remote.h>
 #include <stdio.h>
 #include "remote/remote.h"
 #include "branch/branch.h"
 #include "git2/global.h"
 #include <string.h>
 
-void clean_up(git_repository * repo, git_reference * head, char* remote_name)
+void clean_up(git_repository * repo, git_reference * head, char* remote_name, git_remote* remote)
 {
     if (remote_name) free(remote_name);
     git_repository_free(repo);
     git_reference_free(head);
+    git_remote_free(remote);
     git_libgit2_shutdown();
 }
 //takes path to directory and remote url
@@ -46,19 +48,27 @@ int main(int argc, char * argv[])
     git_repository * repo;
     git_reference * head = NULL;
     char * remote_name = NULL;
+    git_remote * remote = NULL;
     
     int status = open_repo(argv[1], &repo);
     if (status < 0) goto on_error;
 
+    // The name of the remote
     status = get_current_branch_remote(repo, &head, &remote_name);
     if (status < 0) goto on_error;
-    
-    // Assume second arg is remote repo. Check that it is valid
 
-    clean_up(repo, head, remote_name);
+    // the remote  struct
+    status = get_remote(&remote, repo, remote_name);  
+    if (status < 0) goto on_error;
+    
+    status = fetch(remote);
+    if (status < 0) goto on_error;
+    //git fetch 
+
+    clean_up(repo, head, remote_name, remote);
     return 0;
 
 on_error:
-    clean_up(repo, head, remote_name);
+    clean_up(repo, head, remote_name, remote);
     return -1;
 }

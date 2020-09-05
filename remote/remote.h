@@ -6,4 +6,6 @@
 #include "../error/error.h"
 
 int  open_repo(const char*, git_repository**);
+int get_remote(git_remote**, git_repository*, const char*);
+int fetch(git_remote*);
 #endif
