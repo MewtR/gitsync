@@ -1,5 +1,4 @@
 #include "error.h"
-#include <string.h>
 
 char* get_error_message(const char* format,const char* argument)
 {
@@ -8,7 +7,7 @@ char* get_error_message(const char* format,const char* argument)
   if(argument)
       needed = snprintf(NULL, 0, format, argument) + 1; // + 1 to account for null terminator
   else
-      needed = strlen(format); // again the null terminator
+      needed = strlen(format); // still  works?
   char *buffer = malloc(needed);
   sprintf(buffer, format, argument);
   return buffer;
