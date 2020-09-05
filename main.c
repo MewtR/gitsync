@@ -4,11 +4,10 @@
 #include "git2/global.h"
 #include <string.h>
 
-void clean_up(git_repository * repo, git_strarray * remotes, git_reference * head, char* remote_name)
+void clean_up(git_repository * repo, git_reference * head, char* remote_name)
 {
     if (remote_name) free(remote_name);
     git_repository_free(repo);
-    git_strarray_free(remotes);
     git_reference_free(head);
     git_libgit2_shutdown();
 }
@@ -45,26 +44,21 @@ int main(int argc, char * argv[])
     // git_branch_name -> git_branch_upstream_name -> git_branch_remote_name -> git_remote_lookup  -> git_remote_fetch
     // My end goal is to use git_remote_fetch & git_remote_download
     git_repository * repo;
-    git_strarray remotes = {NULL, 0};
     git_reference * head = NULL;
     char * remote_name = NULL;
-    int status = get_remotes(argv[1], &repo, &remotes);
-    if (status < 0) goto on_error;
     
+    int status = open_repo(argv[1], &repo);
+    if (status < 0) goto on_error;
 
-    printf("Remotes found!\n");
-    for (int i = 0; i < remotes.count; i++){
-        printf("Remote %d: %s\n", i, remotes.strings[i]);
-    }
     status = get_current_branch_remote(repo, &head, &remote_name);
     if (status < 0) goto on_error;
     
     // Assume second arg is remote repo. Check that it is valid
 
-    clean_up(repo, &remotes, head, remote_name);
+    clean_up(repo, head, remote_name);
     return 0;
 
 on_error:
-    clean_up(repo, &remotes, head, remote_name);
+    clean_up(repo, head, remote_name);
     return -1;
 }

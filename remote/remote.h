@@ -5,5 +5,5 @@
 #include "git2/strarray.h"
 #include "../error/error.h"
 
-int get_remotes(const char*,git_repository**,git_strarray*);
+int  open_repo(const char*, git_repository**);
 #endif

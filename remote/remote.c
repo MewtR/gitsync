@@ -1,15 +1,17 @@
 #include <stdio.h>
 #include "remote.h"
 
-int get_remotes(const char *path, git_repository **repo, git_strarray *remotes)
+int open_repo(const char *path, git_repository **repo)
 {
     int status = git_repository_open(repo, path);
     if(status) return handle_error("Error opening the git repo located at %s \n", path, status);
 
+    /* obsolete
     status = git_remote_list(remotes, *repo);
     if(status) return handle_error("Error getting remote\n", NULL, status);
 
     if(!remotes->count) return handle_error("This repo does not have any remotes\n", NULL, status);
+    */
     
     return 0;
 }
