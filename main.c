@@ -3,11 +3,14 @@
 #include "remote/remote.h"
 #include "branch/branch.h"
 #include "git2/global.h"
+#include <stdlib.h>
 #include <string.h>
 
-void clean_up(git_repository * repo, git_reference * head, char* remote_name, git_remote* remote)
+void clean_up(git_repository * repo, git_reference * head, char* remote_name, git_remote* remote, char* remote_branch_name, char* local_branch_name)
 {
     if (remote_name) free(remote_name);
+    if (remote_branch_name) free(remote_branch_name);
+    if (local_branch_name) free(local_branch_name);
     git_repository_free(repo);
     git_reference_free(head);
     git_remote_free(remote);
@@ -48,13 +51,15 @@ int main(int argc, char * argv[])
     git_repository * repo;
     git_reference * head = NULL;
     char * remote_name = NULL;
+    char * remote_branch_name = NULL;
+    char * local_branch_name = NULL;
     git_remote * remote = NULL;
     
     int status = open_repo(argv[1], &repo);
     if (status < 0) goto on_error;
 
     // The name of the remote
-    status = get_current_branch_remote(repo, &head, &remote_name);
+    status = get_current_branch_info(repo, &head, &remote_name, &remote_branch_name, &local_branch_name);
     if (status < 0) goto on_error;
 
     // the remote  struct
@@ -65,10 +70,10 @@ int main(int argc, char * argv[])
     status = fetch(remote);
     if (status < 0) goto on_error;
 
-    clean_up(repo, head, remote_name, remote);
+    clean_up(repo, head, remote_name, remote, remote_branch_name, local_branch_name);
     return 0;
 
 on_error:
-    clean_up(repo, head, remote_name, remote);
+    clean_up(repo, head, remote_name, remote, remote_branch_name, local_branch_name);
     return -1;
 }

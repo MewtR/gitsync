@@ -9,5 +9,5 @@
 #include "git2/errors.h"
 #include "../error/error.h"
 
-int get_current_branch_remote(git_repository*, git_reference**, char**);
+int get_current_branch_info(git_repository*, git_reference**, char**, char**,char**);
 #endif
