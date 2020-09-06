@@ -36,18 +36,6 @@ int main(int argc, char * argv[])
     }
 
     git_libgit2_init();
-    // TODO: 
-    // - how to get git_remote objects <- git_remote_lookup does this
-    // - if there are multiple remotes how to determine which one is the default <- basically need to get the current branch because each branch tracks its own remote.
-    // In order to get current branch I need to:
-    // - git_repository_head() <- gets reference pointed to by head
-    // - git_reference_type() <- either symbolic or direct reference
-    // - git_reference_symbolic_target or git_reference_target depending on type
-    // from branch can get remote. Can I just git_branch_name
-    // git_branch_name -> full name of branch? ->git_branch_upstream_remote -> git_remote_lookup  -> git_remote_fetch
-    // or 
-    // git_branch_name -> git_branch_upstream_name -> git_branch_remote_name -> git_remote_lookup  -> git_remote_fetch
-    // My end goal is to use git_remote_fetch & git_remote_download
     git_repository * repo;
     git_reference * head = NULL;
     char * remote_name = NULL;
@@ -70,7 +58,10 @@ int main(int argc, char * argv[])
     status = fetch(remote);
     if (status < 0) goto on_error;
 
-    is_out_of_date(repo, remote_branch_name, local_branch_name);
+    if(is_out_of_date(repo, remote_branch_name, local_branch_name)){
+        status = pull(remote);
+        if(status < 0) goto on_error;
+    }
 
     clean_up(repo, head, remote_name, remote, remote_branch_name, local_branch_name);
     return 0;

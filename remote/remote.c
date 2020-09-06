@@ -28,9 +28,9 @@ int get_remote(git_remote ** out, git_repository* repo, const char* name)
 int fetch(git_remote* remote)
 {
     git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
+    printf("Fetching...\n");
     int status = git_remote_fetch(remote, NULL, &opts, NULL);
     if(status) return handle_error("Error fetching from remote", NULL, status);
-    printf("Fetching...\n");
     return 0;
 }
 
@@ -49,4 +49,13 @@ int is_out_of_date(git_repository* repo, const char* remote_branch_name, const c
     if(count) printf("Local branch is behind by %d commits \n", count);
     else printf("Local branch is up to date with remote \n");
     return count;
+}
+
+int pull(git_remote* remote)
+{
+    git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
+    printf("Pulling...\n");
+    int status = git_remote_download(remote, NULL, &opts);
+    if(status) return handle_error("Error pulling from remote", NULL, status);
+    return 0;
 }
