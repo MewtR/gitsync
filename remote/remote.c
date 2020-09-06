@@ -33,3 +33,20 @@ int fetch(git_remote* remote)
     printf("Fetching...\n");
     return 0;
 }
+
+// Don't fully understand how this works
+// just copy pasted it from SO.
+// But basically it seems to count the commit difference between the local and the corresponding remote branch by taking the "difference".
+int is_out_of_date(git_repository* repo, const char* remote_branch_name, const char* local_branch_name)
+{
+    git_revwalk* walk = NULL;
+    git_revwalk_new(&walk, repo);
+    git_revwalk_push_ref(walk, remote_branch_name);
+    git_revwalk_hide_ref(walk, local_branch_name);
+    git_oid id;
+    int count = 0;
+    while(!(git_revwalk_next(&id, walk))) ++count;
+    if(count) printf("Local branch is behind by %d commits \n", count);
+    else printf("Local branch is up to date with remote \n");
+    return count;
+}

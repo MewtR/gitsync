@@ -70,6 +70,8 @@ int main(int argc, char * argv[])
     status = fetch(remote);
     if (status < 0) goto on_error;
 
+    is_out_of_date(repo, remote_branch_name, local_branch_name);
+
     clean_up(repo, head, remote_name, remote, remote_branch_name, local_branch_name);
     return 0;
 
