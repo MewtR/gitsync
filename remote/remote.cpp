@@ -51,11 +51,11 @@ int is_out_of_date(git_repository* repo, const char* remote_branch_name, const c
     return count;
 }
 
-int pull(git_remote* remote)
+int pull(const char* path)
 {
-    git_fetch_options opts = GIT_FETCH_OPTIONS_INIT;
-    printf("Pulling...\n");
-    int status = git_remote_download(remote, NULL, &opts);
-    if(status) return handle_error("Error pulling from remote", NULL, status);
+
+    // Looking for the cpp way to 
+    // allocate the exact amout needed for buffer (can chage due to path's size) without having to do the  trick I did in error.c
+    //const char* buffer = 
     return 0;
 }

@@ -4,7 +4,7 @@
 
 void copy(char** dest, const char* src)
 {
- *dest = (char*) malloc(strlen(src)+1); 
+ *dest = static_cast<char*>(malloc(strlen(src)+1)); 
  strcpy(*dest, src);
 }
 

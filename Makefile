@@ -1,5 +1,5 @@
 RM = rm -rf
-SRCS = main.cpp remote/remote.c branch/branch.c error/error.c
+SRCS = main.cpp remote/remote.cpp branch/branch.c error/error.c
 OBJSC = $(subst .cpp,.o,$(SRCS))
 OBJS = $(subst .c,.o,$(OBJSC))
 CFLAGS = -g3 # debug with extra information
@@ -15,7 +15,7 @@ gitsync: $(OBJS)
 
 main.o: main.cpp 
 
-remote/remote.o: remote/remote.c remote/remote.h
+remote/remote.o: remote/remote.cpp remote/remote.h
 
 branch/branch.o: branch/branch.c branch/branch.h
 

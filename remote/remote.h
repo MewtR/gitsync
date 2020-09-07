@@ -10,6 +10,6 @@
 int open_repo(const char*, git_repository**);
 int get_remote(git_remote**, git_repository*, const char*);
 int fetch(git_remote*);
-int pull(git_remote*);
+int pull(const char*);
 int is_out_of_date(git_repository*, const char*, const char*);
 #endif
