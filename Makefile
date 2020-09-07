@@ -1,6 +1,7 @@
 RM = rm -rf
-SRCS = main.c remote/remote.c branch/branch.c error/error.c
-OBJS = $(subst .c,.o,$(SRCS))
+SRCS = main.cpp remote/remote.c branch/branch.c error/error.c
+OBJSC = $(subst .cpp,.o,$(SRCS))
+OBJS = $(subst .c,.o,$(OBJSC))
 CFLAGS = -g3 # debug with extra information
 CC = $(CXX)
 
@@ -12,7 +13,7 @@ LDLIBS = $(shell pkg-config --libs libgit2)
 gitsync: $(OBJS)
 	$(CC) -o $@ $(OBJS) $(LDLIBS)
 
-main.o: main.c 
+main.o: main.cpp 
 
 remote/remote.o: remote/remote.c remote/remote.h
 
