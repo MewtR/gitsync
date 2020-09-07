@@ -4,7 +4,7 @@
 
 void copy(char** dest, const char* src)
 {
- *dest = malloc(strlen(src)+1); 
+ *dest = (char*) malloc(strlen(src)+1); 
  strcpy(*dest, src);
 }
 

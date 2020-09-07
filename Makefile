@@ -1,8 +1,8 @@
-
 RM = rm -rf
 SRCS = main.c remote/remote.c branch/branch.c error/error.c
 OBJS = $(subst .c,.o,$(SRCS))
 CFLAGS = -g3 # debug with extra information
+CC = $(CXX)
 
 # implicit variables only used in implicit rules.
 # Else you need to explicitly specify them
