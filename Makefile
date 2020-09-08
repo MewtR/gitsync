@@ -3,6 +3,7 @@ SRCS = main.cpp remote/remote.cpp branch/branch.c error/error.c
 OBJSC = $(subst .cpp,.o,$(SRCS))
 OBJS = $(subst .c,.o,$(OBJSC))
 CFLAGS = -g3 # debug with extra information
+CXXFLAGS = $(CFLAGS)
 CC = $(CXX)
 
 # implicit variables only used in implicit rules.

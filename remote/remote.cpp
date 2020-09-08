@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <git2/remote.h>
 #include <stdio.h>
 #include "remote.h"
@@ -51,11 +52,18 @@ int is_out_of_date(git_repository* repo, const char* remote_branch_name, const c
     return count;
 }
 
+
 int pull(const char* path)
 {
 
     // Looking for the cpp way to 
     // allocate the exact amout needed for buffer (can chage due to path's size) without having to do the  trick I did in error.c
-    //const char* buffer = 
+    // Haven't found a way yet.
+    size_t needed = snprintf(NULL, 0, "git -C %s pull --ff-only", path)+1;
+    char* buffer = static_cast<char*>(malloc(needed));
+    sprintf(buffer, "git -C %s pull --ff-only", path);
+    printf("Pulling...\n");
+    printf("Command: %s \n", buffer);
+    system(buffer); // Really insecure
     return 0;
 }
